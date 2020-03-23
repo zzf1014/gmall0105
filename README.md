@@ -16,3 +16,6 @@ gmall-item-web 前台商品详情展示8082
 
 gmall-search-web 搜索服务前台 8083
 gmall-search-service 搜索服务后台8074
+
+gmall-cart-web 购物车前台8084
+gmall-cart-service购物车后台8075

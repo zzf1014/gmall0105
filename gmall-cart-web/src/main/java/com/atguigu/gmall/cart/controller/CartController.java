@@ -2,6 +2,7 @@ package com.atguigu.gmall.cart.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
+import com.atguigu.gmall.annotations.LoginRequired;
 import com.atguigu.gmall.bean.OmsCartItem;
 import com.atguigu.gmall.bean.PmsSkuInfo;
 import com.atguigu.gmall.service.CartService;
@@ -33,6 +34,14 @@ public class CartController {
     CartService cartService;
 
 
+
+    @LoginRequired(loginSuccess = true)
+    @RequestMapping("toTrade")
+    public String toTrade(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap){
+        return "toTrade";
+    }
+
+    @LoginRequired(loginSuccess = false)
     @RequestMapping("checkCart")
     public String checkCart(String isChecked,String skuId,HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) {
 
@@ -54,6 +63,7 @@ public class CartController {
         return "cartListInner";
     }
 
+    @LoginRequired(loginSuccess = false)
     @RequestMapping("cartList")
     public String cartList(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) {
         List<OmsCartItem> omsCartItems = new ArrayList<>();
@@ -91,6 +101,7 @@ public class CartController {
         return  bigDecimal;
     }
 
+    @LoginRequired(loginSuccess = false)
     @RequestMapping("addToCart")
     public String addToCart(String skuId, int quantity, HttpServletRequest request, HttpServletResponse response){
         List<OmsCartItem> omsCartItems = new ArrayList<>();

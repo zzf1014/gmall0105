@@ -19,3 +19,6 @@ gmall-search-service 搜索服务后台8074
 
 gmall-cart-web 购物车前台8084
 gmall-cart-service购物车后台8075
+
+gmall-passport-web 用户认证中心 8085
+gamll-user-service用户服务service层8070

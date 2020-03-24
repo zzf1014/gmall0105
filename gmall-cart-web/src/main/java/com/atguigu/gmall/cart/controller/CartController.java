@@ -38,6 +38,8 @@ public class CartController {
     @LoginRequired(loginSuccess = true)
     @RequestMapping("toTrade")
     public String toTrade(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap){
+        String memberId = (String)request.getAttribute("memberId");
+        String nickname = (String)request.getAttribute("nickname");
         return "toTrade";
     }
 
@@ -45,7 +47,8 @@ public class CartController {
     @RequestMapping("checkCart")
     public String checkCart(String isChecked,String skuId,HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) {
 
-        String memberId = "1";
+        String memberId = (String)request.getAttribute("memberId");
+        String nickname = (String)request.getAttribute("nickname");
 
         // 调用服务，修改状态
         OmsCartItem omsCartItem = new OmsCartItem();
@@ -67,10 +70,13 @@ public class CartController {
     @RequestMapping("cartList")
     public String cartList(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) {
         List<OmsCartItem> omsCartItems = new ArrayList<>();
-        String userId = "1"; //1
-        if (StringUtils.isNotBlank(userId)){
+
+        String memberId = (String)request.getAttribute("memberId");
+        String nickname = (String)request.getAttribute("nickname");
+
+        if (StringUtils.isNotBlank(memberId)){
             // 已经登陆查询db
-            omsCartItems= cartService.cartList(userId);
+            omsCartItems= cartService.cartList(memberId);
         }else{
             // 没有登陆查询cookie
             String cartListCookie = CookieUtil.getCookieValue(request, "cartListCookie", true);
@@ -126,8 +132,9 @@ public class CartController {
 
 
         // 判断用户是否登录
-        String memberId = "1"; //1
-
+       // String memberId = ""; //1  request.g    etAttribute("memberId");
+        String memberId = (String)request.getAttribute("memberId");
+        String nickname = (String)request.getAttribute("nickname");
         if (StringUtils.isBlank(memberId)){
             // 用户没有登陆  对cookie操作
 

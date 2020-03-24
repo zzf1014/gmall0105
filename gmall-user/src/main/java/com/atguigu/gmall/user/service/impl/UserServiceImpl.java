@@ -32,4 +32,14 @@ public class UserServiceImpl implements UserService {
         return umsMemberReceiveAddressMapper.selectByExample(example);
 
     }
+
+    @Override
+    public UmsMember login(UmsMember umsMember) {
+        return null;
+    }
+
+    @Override
+    public void addUserToken(String token, String memberId) {
+
+    }
 }

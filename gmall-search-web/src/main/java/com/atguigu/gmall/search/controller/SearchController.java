@@ -1,9 +1,11 @@
 package com.atguigu.gmall.search.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.atguigu.gmall.annotations.LoginRequired;
 import com.atguigu.gmall.bean.*;
 import com.atguigu.gmall.service.AttrService;
 import com.atguigu.gmall.service.SearchService;
+import com.atguigu.gmall.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -22,6 +24,10 @@ public class SearchController {
 
     @Reference
     AttrService attrService;
+
+
+
+    @LoginRequired(loginSuccess = false)
     @RequestMapping("index")
     public String index(){
         return "index";

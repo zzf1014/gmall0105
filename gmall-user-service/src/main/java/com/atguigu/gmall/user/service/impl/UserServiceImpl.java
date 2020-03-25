@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
             jedis = redisUtil.getJedis();
 
             if (jedis!=null){
-                String userMemberStr = jedis.get("user:" + umsMember.getPassword() + ":info");
+                String userMemberStr = jedis.get("user:" + umsMember.getPassword()+umsMember.getUsername() + ":info");
                 if (StringUtils.isNotBlank(userMemberStr)){
                     // 密码正确
                     UmsMember umsMemberFromCache = JSON.parseObject(userMemberStr, UmsMember.class);
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
                     // 缓存中没有开启数据库
                     UmsMember umsMemberFromDb = loginFromDb(umsMember);
                     if (umsMemberFromDb!=null){
-                        jedis.setex("user:" + umsMember.getPassword() + ":info",60*60*24,JSON.toJSONString(umsMemberFromDb));
+                        jedis.setex("user:" + umsMember.getPassword()+umsMember.getUsername() + ":info",60*60*24,JSON.toJSONString(umsMemberFromDb));
                     }
                     return umsMemberFromDb;
                 }
@@ -83,6 +83,14 @@ public class UserServiceImpl implements UserService {
         Jedis jedis = redisUtil.getJedis();
         jedis.setex("user:"+memberId+":token",60*60*2,token);
         jedis.close();
+    }
+
+    @Override
+    public UmsMemberReceiveAddress getReceiveAddressById(String receiveAddressId) {
+        UmsMemberReceiveAddress umsMemberReceiveAddress = new UmsMemberReceiveAddress();
+        umsMemberReceiveAddress.setId(receiveAddressId);
+        UmsMemberReceiveAddress umsMemberReceiveAddress1 = umsMemberReceiveAddressMapper.selectOne(umsMemberReceiveAddress);
+        return umsMemberReceiveAddress1;
     }
 
     private UmsMember loginFromDb(UmsMember umsMember) {

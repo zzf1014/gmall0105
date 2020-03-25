@@ -42,4 +42,9 @@ public class UserServiceImpl implements UserService {
     public void addUserToken(String token, String memberId) {
 
     }
+
+    @Override
+    public UmsMemberReceiveAddress getReceiveAddressById(String receiveAddressId) {
+        return null;
+    }
 }

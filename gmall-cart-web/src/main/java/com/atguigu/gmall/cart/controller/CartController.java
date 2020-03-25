@@ -35,13 +35,7 @@ public class CartController {
 
 
 
-    @LoginRequired(loginSuccess = true)
-    @RequestMapping("toTrade")
-    public String toTrade(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap){
-        String memberId = (String)request.getAttribute("memberId");
-        String nickname = (String)request.getAttribute("nickname");
-        return "toTrade";
-    }
+
 
     @LoginRequired(loginSuccess = false)
     @RequestMapping("checkCart")

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -42,7 +43,7 @@ public class OrderController {
     SkuService skuService;
     @RequestMapping("submitOrder")
     @LoginRequired(loginSuccess = true)
-    public String submitOrder(String receiveAddressId, BigDecimal totalAmount, String tradeCode, HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) {
+    public ModelAndView submitOrder(String receiveAddressId, BigDecimal totalAmount, String tradeCode, HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap modelMap) {
         String memberId = (String)request.getAttribute("memberId");
         String nickname = (String)request.getAttribute("nickname");
 
@@ -95,7 +96,8 @@ public class OrderController {
                     // 检验价格
                     boolean b = skuService.checkPrice(omsCartItem.getProductSkuId(),omsCartItem.getPrice());
                     if (b == false) {
-                        return "tradeFail";
+                        ModelAndView mv = new ModelAndView("tradeFail");
+                        return mv;
                     }
                     //检验库存 远程调用库存系统
                     omsOrderItem.setProductPic(omsCartItem.getProductPic());
@@ -122,12 +124,17 @@ public class OrderController {
             orderService.saveOrder(omsOrder);
 
             // 重定向到支付系统
+            ModelAndView mv = new ModelAndView("redirect:http://127.0.0.1:8087/index");
+            mv.addObject("outTradeNo",outTradeNo);
+            mv.addObject("totalAmount",totalAmount);
+            return mv;
         }else {
-            return "fail";
+            ModelAndView mv = new ModelAndView("tradeFail");
+            return mv;
         }
 
 
-        return null;
+
     }
 
 

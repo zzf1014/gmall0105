@@ -25,3 +25,5 @@ gamll-user-service用户服务service层8070
 
 gmall-order-web订单前台服务8086
 gmall-order-service 订单后台8076
+
+gmall-payent支付 8087
